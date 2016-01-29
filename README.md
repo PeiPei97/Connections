@@ -20,27 +20,35 @@ class Socket{
   
   protected: 
   int sockID;
-  Socket(Protocollo protcol, Address* address = null){}
+  Socket(Protocollo protcol, Address* address = null);
   
   public:
-  void broadcastOn(){}
-  ⁓Socket(){}
+  void broadcastOn();
+  ⁓Socket();
 }
 
 class SocketUDP:public Socket{
   
   public:
-  SocketUDP(Address* address = null){}
-  bool sendUDPmsg(char* content, Address reciver){}
-  char* recvUDPmsg(Address* emitter){}
-  ⁓SocketUDP(){}
+  SocketUDP(Address* address = null);
+  bool sendUDPmsg(char* content, Address reciver);
+  char* recvUDPmsg(Address* emitter);
+  ⁓SocketUDP();
 }
+
+//TCP use below calsses [RFN]
+
+class Node;
+class Lista;
+class Connection;
+class ClientConn;
+class ServerConn;
 
 class SocketTCP:public Socket{
   
   protected:
-  SocketTCP(Address* address = null){}
-  ⁓SocketTCP(){}
+  SocketTCP(Address* address = null);
+  ⁓SocketTCP();
 }
 
 class ClientTCP:public SocketTCP{
@@ -49,16 +57,12 @@ class ClientTCP:public SocketTCP{
   ClientConn* channel;
   
   public:
-  ClientTCP(){}
+  ClientTCP();
   void connect(Address server);
   bool sendTCPmsg(char* content);
   char* recvTCPmsg();
-  ⁓ClientTCP(){}
+  ⁓ClientTCP();
 }
-
-//ServerTCP use below calsses [RFN]
-
-class Connection;
 
 class ServerTCP:public SocketTCP{
   
@@ -66,12 +70,35 @@ class ServerTCP:public SocketTCP{
   Lista* ConnList;
   
   public:
-  ServerTCP(Address address){}
+  ServerTCP(Address address);
   ServerConn* accept();
-  ⁓ServerTCP(){}
+  ⁓ServerTCP();
 }
 
-#endif
+class Node{
+  
+  private:
+  Node* nextNode;
+  
+  public:
+  Node();
+  Node* getNext();
+  virtual void getKey() = 0;
+  ⁓Node();
+}
+
+class Lista{
+  private:
+  Node* first;
+  void deleteAll(Node* toDelete);
+  void show(Node* toShow);
+  
+  public:
+  Lista();
+  void add(Node* toAdd);
+  void show();
+  ⁓Lista();
+}
 
 class Connection{
   
@@ -80,11 +107,28 @@ class Connection{
   int connID;
   
   protected:
-  Connection(int connID, Address address){}
+  Connection(int connID, Address address);
   
   public:
   bool sendTCPmsg(char* content);
   char* recvTCPmsg();
   Address getAddress();
-  ⁓Connection(){}
+  ⁓Connection();
 }
+
+class ClientConn:public Connection{
+  
+  public:
+  ClientConn(int sockID, Address address);
+  ⁓ClientConn();
+}
+
+class ServerConn:public Connection, public Node{
+  
+  public:
+  ServerConn(int connID, Address address);
+  void* getKey();
+  ⁓ServerConn();
+}
+
+#endif
