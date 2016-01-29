@@ -56,17 +56,35 @@ class ClientTCP:public SocketTCP{
   ⁓ClientTCP(){}
 }
 
+//ServerTCP use below calsses [RFN]
+
+class Connection;
+
 class ServerTCP:public SocketTCP{
   
   private: 
   Lista* ConnList;
   
   public:
-  ClientTCP(){}
-  void connect(Address server);
-  bool sendTCPmsg(char* content);
-  char* recvTCPmsg();
-  ⁓ClientTCP(){}
+  ServerTCP(Address address){}
+  ServerConn* accept();
+  ⁓ServerTCP(){}
 }
 
 #endif
+
+class Connection{
+  
+  private:
+  Address address;
+  int connID;
+  
+  protected:
+  Connection(int connID, Address address){}
+  
+  public:
+  bool sendTCPmsg(char* content);
+  char* recvTCPmsg();
+  Address getAddress();
+  ⁓Connection(){}
+}
