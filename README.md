@@ -131,4 +131,19 @@ class ServerConn:public Connection, public Node{
   ⁓ServerConn();
 }
 
+class Iterator{
+  
+  private:
+  ServerTCP* serverTCP;
+  Iterator iterator;
+  ServerConn* channel;
+  
+  public:
+  Nodo* goFirst();
+  Nodo* moveNext();
+  bool isDone();
+  Nodo* getCurrent();
+  Iterator(Lista);
+}
+
 #endif
