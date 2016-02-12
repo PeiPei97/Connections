@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MYIP 0.0.0.0
+#define NOTFOUND 404
+#define SUCCESS 200
+
+int main(int argc, char* argv[])
+{
+    int port;
+    char* homePage;
+    serverTCP* mySelf;
+    Address* myAddr;
+    ServerConn* channel;
+
+    if(argc != 3){
+        return -1;
+    }
+
+    port = atoi(argv[1]);
+    homePage = argv[2];
+    myAddr = new Address(MYIP, port);
+    mySelf() = new ServerTCP(*myAddr);
+
+    channel = mySelf -> accept();
+    if(channel){
+        char* msg;
+
+        msg = channel -> recvTCPmsg();
+        if(msg){
+            char* clientID = channel -> getAddress().parseString();
+            FILE* fHomePage;
+
+            printf("[%s]%s\n", clientID, msg);
+            fHomePage = fopen(homePage, "r");
+            if(!fHomePage){
+                channel -> sendTCPmsg(NOTFOUND);
+            } else {
+                channel -> sendTCPmsg(SUCCES);
+                channel -> sendTCPmsg(fHomePage);
+            }
+            close(fHomePage);
+        }
+        mySelf -> shutConn();
+    }
+
+    delete(mySelf);
+    delete(myAddr);
+
+    return 0;
+}
