@@ -1,0 +1,50 @@
+#define HTTPOK 200OK
+
+int main(int argc, char* argv[]){
+  int port;
+  char* ip, replyMsg;
+  ClientTCP* = mySelf;
+  Address* = myAddr;
+  
+  if(argc != 3){
+    printf("bad usage");
+    return -1;
+  }
+  
+  ip = argv[1];
+  port = atoi(argv[2]);
+  myAdrr = new Address(ip, port);
+  mySelf = new ClientTCP;
+  if(mySelf -> connect(myAddr)){
+    throwError("[ERROR]: Can't connect", -2);
+  }
+  
+  if(mySelf -> sendTCPmsg(HTTPREQUEST)){
+    throwError("Request failed" -3);
+  }
+  
+  replyMsg = recvTCPmsg();
+  if(!replyMsg){
+    throwError("Null reply", -4);
+  }
+  
+  printf("[MESSAGE]: %s\n", replyMsg);
+  if(!strstr(replyMsg,HTTPOK)){
+    throwError("Connection is corrupted", -5);
+  }
+  
+  if(!replyMsg = mySelf -> recvTCPmsg()){
+    throwError("Page transfer failed", -6);
+  }
+  
+  printf("%s\n", replyMsg);
+  delete(mySelf); 
+  free(replyMsg);
+  delete(myAddr);
+}
+
+void throwError(char* errorMsg, int retCode){
+  printf("[ERROR " + %d + "]: " + %s + "\n", retCode, errorMsg);
+  printf("[INFO]: %s\n", strerror(errno));
+  exit(retCode);
+}
