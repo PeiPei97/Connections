@@ -1,0 +1,16 @@
+class Adress {
+  private:  struct sockaddr_in address;
+            char* ip;
+            int port;
+  
+  public:   Address();
+            Address(char*, int);
+            Address(struct sockaddr_in);
+            char* getIp();
+            void setIp(char*);
+            int getPort();
+            void setPort(int);
+            struct sockaddr_in getAddr();
+            void setAddr(struct sockaddr_in);
+            char* toString();
+            ~Address();
